@@ -25,7 +25,7 @@ public class BombermanGame extends Application {
     public static  List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
     public static Entity bomberman;
-
+    public static Scene scene;
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
     }
@@ -41,7 +41,7 @@ public class BombermanGame extends Application {
         root.getChildren().add(canvas);
 
         // Tao scene
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
 
         // Them scene vao stage
         stage.setScene(scene);

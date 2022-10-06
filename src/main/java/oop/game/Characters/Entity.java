@@ -2,6 +2,7 @@ package oop.game.Characters;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import oop.game.graphics.Sprite;
 
 public abstract class Entity {
 
@@ -10,8 +11,8 @@ public abstract class Entity {
     protected Image img;
 
     public Entity(int xUnit, int yUnit, Image img) {
-        this.x = xUnit ;
-        this.y = yUnit;
+        this.x = xUnit * Sprite.SCALED_SIZE;
+        this.y = yUnit * Sprite.SCALED_SIZE;
         this.img = img;
     }
 
