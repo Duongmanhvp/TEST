@@ -26,7 +26,7 @@ public class Map {
 
         final File file = new File(lv);
 
-        try (FileReader fr = new FileReader(file)) {
+        try (FileReader filereader = new FileReader(file)) {
             Scanner sc = new Scanner(file);
             String line = sc.nextLine();
 

@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import javafx.animation.KeyFrame;
 
 import oop.game.graphics.Map;
 import oop.game.Characters.Entity;
@@ -32,6 +33,9 @@ public class BombermanGame extends Application {
 
     @Override
     public void start(Stage stage) {
+
+        stage.setTitle("BOMBERMAN");
+
         // Tao Canvas
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -46,18 +50,21 @@ public class BombermanGame extends Application {
         // Them scene vao stage
         stage.setScene(scene);
         stage.show();
+        run();
+    }
 
-        AnimationTimer timer = new AnimationTimer() {
+    public void run() {
+        AnimationTimer gameTimer = new AnimationTimer() {
             @Override
-            public void handle(long l) {
+            public void handle(long now) {
                 render();
                 update();
             }
         };
-        timer.start();
+        gameTimer.start();
         new Map("res/view/level1");
-
     }
+
 
     public void update() {
         entities.forEach(Entity::update);

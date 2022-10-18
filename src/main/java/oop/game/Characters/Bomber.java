@@ -1,95 +1,105 @@
 package oop.game.Characters;
 
+import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import oop.game.BombermanGame;
+import javafx.util.Duration;
 import oop.game.graphics.Sprite;
+import oop.game.items.Bomb;
 
-import static oop.game.BombermanGame.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import static oop.game.BombermanGame.bomberman;
+import static oop.game.BombermanGame.scene;
 public class Bomber extends Entity {
 
+    public List<Bomb> bombs = new ArrayList<>();
     private int animate = 0;
+
+
+    private boolean live = true;
     public Bomber(int x, int y, Image img) {
         super(x, y, img);
     }
 
-    public void update (){
+    public void update () {
         MoveBomber();
+        putBomb();
         animate++;
     }
 
-    /*
-    private void moveBomber() {
-        int xa;
-        int ya;
-        if (x + xa < 0) {
-            xa = 1;
-        }
-        if (x + xa > WIDTH * Sprite.SCALED_SIZE ) {
-            xa = -1;
-        }
-        if (y + ya < 0){
-            ya = 1;
-        }
-        if (y + ya > HEIGHT * Sprite.SCALED_SIZE ){
-            ya = -1;
-        }
-        //Cập nhật tọa độ
-        x = x + xa;
-        y = y + ya;
+    public void isUp() {
+        y -= speed;
+        img  = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 15).getFxImage();
+
     }
 
-    */
-    /*
-    public void keyPressed() {
+    public void isDown() {
+        y += speed;
+        img  = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 15).getFxImage();
 
-        KeyEvent key = new KeyEvent();
-        if(key.getCode().equals(KeyCode.UP)) {
-            y -= 1;
-        }
-        else if(key.getCode().equals(KeyCode.DOWN)) {
-            y += 1;
-        }
-        else if(key.getCode().equals(KeyCode.RIGHT)) {
-            x += 1;
-        }
-        else if(key.getCode().equals(KeyCode.LEFT)) {
-            x -= 1;
-        }
     }
-    */
 
-    public void MoveBomber() {
-    scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+    public void isLeft() {
+        x -= speed;
+        img  = Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 15).getFxImage();
 
-        @Override
-        public void handle(KeyEvent event) {
+    }
 
-            switch(event.getCode()) {
+    public void isRight() {
+        x += speed;
+        img  = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 15).getFxImage();
 
-                case UP:
-                    y -= 10;
-                    img  = Sprite.movingSprite(Sprite.player_up, Sprite.player_up_1, Sprite.player_up_2, animate, 10).getFxImage();
-                    break;
-                case DOWN:
-                    y += 10;
-                    img  = Sprite.movingSprite(Sprite.player_down, Sprite.player_down_1, Sprite.player_down_2, animate, 10).getFxImage();
-                    break;
-                case LEFT:
-                    x -= 10;
-                    img  = Sprite.movingSprite(Sprite.player_left, Sprite.player_left_1, Sprite.player_left_2, animate, 10).getFxImage();
-                    break;
-                case RIGHT:
-                    x += 10;
-                    img  = Sprite.movingSprite(Sprite.player_right, Sprite.player_right_1, Sprite.player_right_2, animate, 10).getFxImage();
-                    break;
-                default:
-                    break;
+    }
+
+    public void setBomb() {
+        img = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, animate, 60).getFxImage();
+
+    }
+
+    public void putBomb() {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent event) {
+                if(event.getCode() == KeyCode.SPACE) {
+                    setBomb();
+                }
             }
-        }
         });
     }
-}
+
+    public void MoveBomber() {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+            @Override
+            public void handle(KeyEvent event) {
+
+                if(event.getCode() == KeyCode.UP){
+                    isUp();
+                } else if(event.getCode() == KeyCode.DOWN) {
+                    isDown();
+                } else if(event.getCode() == KeyCode.LEFT) {
+                    isLeft();
+                } else if(event.getCode() == KeyCode.RIGHT) {
+                    isRight();
+                }
+        }
+        });
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent event) {
+
+                 if(event.getCode() == KeyCode.UP){
+                     isUp();
+                 } else if(event.getCode() == KeyCode.DOWN) {
+                 isDown();
+                 } else if(event.getCode() == KeyCode.LEFT) {
+                 isLeft();
+                 } else if(event.getCode() == KeyCode.RIGHT) {
+                 isRight();
+                 }
+            }
+        });
+    }}
+
